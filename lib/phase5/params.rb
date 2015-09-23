@@ -12,15 +12,20 @@ module Phase5
     # You haven't done routing yet; but assume route params will be
     # passed in as a hash to `Params.new` as below:
     def initialize(req, route_params = {})
-      parse_www_encoded_form(req.query_string)
-      #parse_www_encoded_form(req.body)
+      parse_www_encoded_form(req.query_string) unless req.query_string.nil?
+      parse_www_encoded_form(req.body) unless req.body.nil?
+
+      route_params.each do |key, value|
+        params[key] = value
+      end
+
       params
     end
 
     #new is a class method, initialize is called
 
     def [](key)
-      params[key] || params['#{key}']
+      params[key] || params[key.to_s] || params[key.to_sym]
     end
 
     # this will be useful if we want to `puts params` in the server log
