@@ -7,6 +7,7 @@ module Phase6
       @http_method = http_method
       @controller_class = controller_class
       @action_name = action_name
+
     end
 
     # checks if pattern matches path and method matches request method
@@ -18,6 +19,10 @@ module Phase6
     # instantiate controller and call controller action
     def run(req, res)
       route_params = {}
+      match_data = @pattern.match(req.path)
+      match_data.names.each do |key|
+        route_params[key] = match_data[key]
+      end
       controller_class.to_s.camelize.constantize.new(req, res, route_params).invoke_action(action_name)
     end
   end
@@ -37,6 +42,7 @@ module Phase6
     # evaluate the proc in the context of the instance
     # for syntactic sugar :)
     def draw(&proc)
+      self.instance_eval(&proc)
     end
 
     # make each of these methods that
@@ -46,7 +52,7 @@ module Phase6
         add_route(pattern, http_method, controller_class, action_name)
       end
     end
-
+    
     # should return the route that matches this request
     def match(req)
       routes.each do |route|
