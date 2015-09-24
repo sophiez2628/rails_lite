@@ -52,7 +52,9 @@ module Phase6
         add_route(pattern, http_method, controller_class, action_name)
       end
     end
-    
+
+
+
     # should return the route that matches this request
     def match(req)
       routes.each do |route|
@@ -63,7 +65,7 @@ module Phase6
 
     # either throw 404 or call run on a matched route
     def run(req, res)
-      chosen_route = match(req).first unless match(req).nil?
+      chosen_route = match(req) unless match(req).nil?
       chosen_route.nil? ? res.status = 404 : chosen_route.run(req, res)
     end
   end

@@ -1,5 +1,6 @@
 require 'json'
 require 'webrick'
+require 'byebug'
 
 module Phase4
   class Session
@@ -12,7 +13,6 @@ module Phase4
       #instance of the webrick cookie object
       if cookie
         @cookie_value = JSON.parse(cookie.value)
-
       else
         @cookie_value = {}
       end
