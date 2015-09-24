@@ -6,6 +6,5 @@ module Phase7
     def flash
       @flash ||= Flash.new(req)
     end
-
   end
 end

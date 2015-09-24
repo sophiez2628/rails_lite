@@ -7,11 +7,10 @@ module Phase7
       cookie = req.cookies.find { |cook| cook.name == '_rails_lite_app_flash'}
       if cookie
         @flash_now = JSON.parse(cookie.value)
-        @flash = {}
       else
         @flash_now = {}
-        @flash = {}
       end
+      @flash = {}
     end
 
     def now
